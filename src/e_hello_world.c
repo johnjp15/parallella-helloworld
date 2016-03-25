@@ -80,9 +80,9 @@ int trace_start_wait_all()
 	e_irq_mask(E_WAND_INT, E_FALSE);
 	__asm__ __volatile__("wand"); // Set our WAND bit
 	__asm__ __volatile__("idle"); // Idle and wait for an interrupt
-	//irqState = e_reg_read(E_REG_STATUS);
-	//irqState = irqState & (~0x8);  // This is the WAND interrupt flag
-	//e_reg_write(E_REG_FSTATUS, irqState);
+	irqState = e_reg_read(E_REG_STATUS);
+	irqState = irqState & (~0x8);  // This is the WAND interrupt flag
+	e_reg_write(E_REG_FSTATUS, irqState);
 	//e_ctimer_start(E_CTIMER_1, E_CTIMER_CLK); // Start counting
 	return 0;
 }

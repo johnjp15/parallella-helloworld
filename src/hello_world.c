@@ -40,7 +40,7 @@ const unsigned SeqLen = 20;
 
 int main(int argc, char *argv[])
 {
-	unsigned row, col, coreid, i;
+	unsigned row, col, coreid, i, j;
 	e_platform_t platform;
 	e_epiphany_t dev;
 	e_mem_t   mbuf;
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	for (i=0; i < SeqLen; i++)//(platform.rows * platform.cols); i++)
+	for (i=0; i < (platform.rows * platform.cols); i++)
 	{
 		char buf[ShmSize];
 
@@ -79,8 +79,8 @@ int main(int argc, char *argv[])
 		//	row = 3;
 		//	col = 3;
 		//}	else	{
-		row = rand() % platform.rows;//i / platform.rows;//rand() % platform.rows;
-		col = rand() % platform.cols;//i % platform.cols;//rand() % platform.cols;
+		row = i / platform.cols;//rand() % platform.rows;
+		col = i % platform.cols;//rand() % platform.cols;
 		//}
 		coreid = (row + platform.row) * 64 + col + platform.col;
 		printf("%3d: Message from eCore 0x%03x (%2d,%2d): ", i, coreid, row, col);
@@ -104,7 +104,12 @@ int main(int argc, char *argv[])
 		// read message from shared buffer.
 		usleep(10000);
 
-		e_read(&mbuf, 0, 0, 0, buf, ShmSize);
+
+		for(j = 0; j < (platform.rows * platform.cols); j++){
+			e_read(&mbuf, j/platform.cols, j%platform.cols, 0, buf, ShmSize);
+			printf("Expecting message from: (%d, %d)\n", j/platform.cols, j%platform.cols);
+			printf("\t\"%s\"\n", buf); 
+		}
 
 		// Print the message and close the workgroup.
 		printf("\"%s\"\n", buf);
