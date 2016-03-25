@@ -1,0 +1,3 @@
+program hello_world.c seems to load the e_hello_world.srec program into the core at the row, col, and the specified &dev address using the e_load or e_reset methods
+some kind of makefile process compiles the e_program, which is the actual hello world program.  the hello_world.c is the parallel wrapper for the actual e_hello_world.c program.  it loads the program onto the core after it adds the right information to the correct core at &dev???? not sure.
+
