@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	for (i=0; i < 40; i++)//(platform.rows * platform.cols); i++)
+	for (i=0; i < SeqLen; i++)//(platform.rows * platform.cols); i++)
 	{
 		char buf[ShmSize];
 
